@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:yolo/model/dataModel.dart';
 import 'package:yolo/screens/displayroom.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:yolo/screens/searchscreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +17,8 @@ class HomeScreen extends StatefulWidget {
 class __HomeScreenState extends State<HomeScreen> {
   List<Room> rooms = [];
   bool visible = false;
+  Duration duration = const Duration(seconds: 10);
+  Timer? timer;
   @override
   void initState() {
     super.initState();
@@ -28,6 +33,7 @@ class __HomeScreenState extends State<HomeScreen> {
           rooms = parseRoomsFromJson(response.body);
           visible = true; // Set visible to true after data is loaded
         });
+        timer?.cancel();
       } else {
         // Handle non-200 status codes gracefully
         throw Exception('Failed to load rooms: ${response.statusCode}');
@@ -37,6 +43,12 @@ class __HomeScreenState extends State<HomeScreen> {
       print('Error fetching data: $error');
       // You can show a snackbar or dialog to inform the user about the error
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
   }
 
   void DisplayScreen(Room room, BuildContext context) {
@@ -60,6 +72,10 @@ class __HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    timer ??= Timer.periodic(duration, (timer) {
+      // Call fetchData periodically
+      fetchData();
+    });
     return Scaffold(
       appBar: AppBar(
         title: Container(
@@ -76,13 +92,41 @@ class __HomeScreenState extends State<HomeScreen> {
       body: ListView(
         children: [
           Container(
-            margin: const EdgeInsets.all(18),
-            child: SearchBar(
-              leading:
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-              hintText: 'Search By Location..',
-            ),
-          ),
+              margin: const EdgeInsets.all(18),
+              child: GestureDetector(
+                onTap: () {
+                  if (rooms.isNotEmpty) {
+                    showSearch(
+                        context: context,
+                        delegate: MySearchDelegate(roomList: rooms));
+                  } else {
+                    showSearch(
+                        context: context,
+                        delegate: MySearchDelegate(roomList: Rooms));
+                  }
+                },
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              if (rooms.isNotEmpty) {
+                                showSearch(
+                                    context: context,
+                                    delegate:
+                                        MySearchDelegate(roomList: rooms));
+                              }
+                            },
+                            icon: const Icon(Icons.search)),
+                        const Text('Search By Location ...'),
+                      ],
+                    ),
+                  ),
+                ),
+              )),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 28),
             height: 50,
@@ -102,10 +146,19 @@ class __HomeScreenState extends State<HomeScreen> {
                   );
                 }),
           ),
-          Column(
-            children: rooms
-                .map((e) => RoomCard(room: e, onTap: DisplayScreen))
-                .toList(),
+          Visibility(
+            visible: visible,
+            replacement: Container(
+              margin: const EdgeInsets.symmetric(vertical: 100),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+            child: Column(
+              children: rooms
+                  .map((e) => RoomCard(room: e, onTap: DisplayScreen))
+                  .toList(),
+            ),
           )
         ],
       ),
