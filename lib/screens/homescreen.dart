@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import '../widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:yolo/model/dataModel.dart';
 import 'package:yolo/screens/displayroom.dart';
@@ -77,6 +77,7 @@ class __HomeScreenState extends State<HomeScreen> {
       fetchData();
     });
     return Scaffold(
+      drawer: NavigationScreenDrawer(),
       appBar: AppBar(
         title: Container(
           margin: const EdgeInsets.only(top: 20),
