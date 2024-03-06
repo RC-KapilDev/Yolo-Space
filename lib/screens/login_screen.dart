@@ -3,7 +3,7 @@ import '../custom_textfield.dart';
 import 'package:yolo/services/auth_services.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

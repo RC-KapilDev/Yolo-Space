@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
 import 'package:yolo/providers/user_provider.dart';
 import 'package:yolo/services/auth_services.dart';
-import 'package:provider/provider.dart';
 
-class HomeScr extends StatelessWidget {
-  const HomeScr({Key? key}) : super(key: key);
+class HomeSrc extends StatelessWidget {
+  const HomeSrc({Key? key}) : super(key: key);
 
   void signOutUser(BuildContext context) {
     AuthService().signOut(context);

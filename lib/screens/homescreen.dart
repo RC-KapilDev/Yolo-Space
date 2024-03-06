@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:provider/provider.dart';
+import 'package:yolo/providers/user_provider.dart';
+
 import '../widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:yolo/model/dataModel.dart';
@@ -27,7 +30,8 @@ class __HomeScreenState extends State<HomeScreen> {
 
   Future<void> fetchData() async {
     try {
-      final response = await http.get(Uri.parse('http://10.0.2.2:3000/rooms'));
+      final response = await http
+          .get(Uri.parse('https://yolo-backend-uno0.onrender.com/rooms'));
       if (response.statusCode == 200) {
         setState(() {
           rooms = parseRoomsFromJson(response.body);
@@ -72,6 +76,7 @@ class __HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     timer ??= Timer.periodic(duration, (timer) {
       // Call fetchData periodically
       fetchData();

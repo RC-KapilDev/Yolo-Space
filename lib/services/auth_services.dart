@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:yolo/screens/homescreen.dart';
+import 'package:yolo/screens/home_screen.dart';
 import 'package:yolo/model/user.dart';
-import 'package:yolo/services/auth_services.dart';
+import 'package:yolo/screens/homescreen.dart';
 
 import 'package:yolo/screens/signup_screen.dart';
 import 'package:yolo/providers/user_provider.dart';
@@ -30,7 +30,7 @@ class AuthService {
       );
 
       http.Response res = await http.post(
-        Uri.parse('${Constants.uri}/signup'),
+        Uri.parse('${Constants.uri}/api/signup'),
         body: user.toJson(),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -61,7 +61,7 @@ class AuthService {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       final navigator = Navigator.of(context);
       http.Response res = await http.post(
-        Uri.parse('${Constants.uri}/signin'),
+        Uri.parse('${Constants.uri}/api/signin'),
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -101,7 +101,6 @@ class AuthService {
 
       if (token == null) {
         prefs.setString('x-auth-token', '');
-        print('auth token null in get user data');
       }
 
       var tokenRes = await http.post(
@@ -119,10 +118,9 @@ class AuthService {
           Uri.parse('${Constants.uri}/'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            "x-auth-token": token
+            'x-auth-token': token
           },
         );
-        print(userRes.body);
 
         userProvider.setUser(userRes.body);
       }

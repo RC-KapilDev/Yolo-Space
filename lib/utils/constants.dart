@@ -1,3 +1,3 @@
 class Constants {
-  static String uri = 'http://10.0.2.2:5000/yolo';
+  static String uri = 'https://yolo-user.onrender.com';
 }

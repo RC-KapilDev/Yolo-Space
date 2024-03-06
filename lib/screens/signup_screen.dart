@@ -6,7 +6,7 @@ import 'package:yolo/screens/login_screen.dart';
 import 'package:yolo/services/auth_services.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  const SignupScreen({super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
