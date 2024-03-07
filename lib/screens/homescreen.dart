@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:yolo/model/dataModel.dart';
 import 'package:yolo/screens/displayroom.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 import 'package:yolo/screens/searchscreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class __HomeScreenState extends State<HomeScreen> {
   Future<void> fetchData() async {
     try {
       final response = await http
-          .get(Uri.parse('https://yolo-backend-uno0.onrender.com/rooms'));
+          .get(Uri.parse('https://sore-jade-jay-wig.cyclic.app/yolo/rooms'));
       if (response.statusCode == 200) {
         setState(() {
           rooms = parseRoomsFromJson(response.body);
@@ -44,7 +44,7 @@ class __HomeScreenState extends State<HomeScreen> {
       }
     } catch (error) {
       // Handle network errors or parsing errors
-      print('Error fetching data: $error');
+
       // You can show a snackbar or dialog to inform the user about the error
     }
   }
@@ -55,7 +55,7 @@ class __HomeScreenState extends State<HomeScreen> {
     timer?.cancel();
   }
 
-  void DisplayScreen(Room room, BuildContext context) {
+  void displayScreen(Room room, BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => DisplayRoom(room: room)));
   }
@@ -82,7 +82,7 @@ class __HomeScreenState extends State<HomeScreen> {
       fetchData();
     });
     return Scaffold(
-      drawer: NavigationScreenDrawer(),
+      drawer: const NavigationScreenDrawer(),
       appBar: AppBar(
         title: Container(
           margin: const EdgeInsets.only(top: 20),
@@ -162,7 +162,7 @@ class __HomeScreenState extends State<HomeScreen> {
             ),
             child: Column(
               children: rooms
-                  .map((e) => RoomCard(room: e, onTap: DisplayScreen))
+                  .map((e) => RoomCard(room: e, onTap: displayScreen))
                   .toList(),
             ),
           )

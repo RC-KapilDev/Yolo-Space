@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../services/auth_services.dart';
-import '../providers/user_provider.dart';
-import 'package:provider/provider.dart';
 
 class NavigationScreenDrawer extends StatelessWidget {
   const NavigationScreenDrawer({super.key});

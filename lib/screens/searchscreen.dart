@@ -20,7 +20,7 @@ class MySearchDelegate extends SearchDelegate {
   MySearchDelegate({required this.roomList});
   final List<Room> roomList;
 
-  void DisplayScreen(Room room, BuildContext context) {
+  void displayScreen(Room room, BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => DisplayRoom(room: room)));
   }
@@ -28,7 +28,7 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
         onPressed: () => close(context, null),
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
       );
 
   @override
@@ -41,7 +41,7 @@ class MySearchDelegate extends SearchDelegate {
               query = '';
             }
           },
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
         ),
       ];
 
@@ -93,7 +93,7 @@ class MySearchDelegate extends SearchDelegate {
         itemCount: searchResults.length,
         itemBuilder: (context, index) {
           final Room room = searchResults[index];
-          return RoomCard(room: room, onTap: DisplayScreen);
+          return RoomCard(room: room, onTap: displayScreen);
         },
       );
     }

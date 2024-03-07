@@ -71,7 +71,7 @@ class _DisplayRoomState extends State<DisplayRoom> {
                                   mainAxisSpacing: 5,
                                   crossAxisSpacing: 40),
                           itemBuilder: (context, index) {
-                            return Container(
+                            return SizedBox(
                               height: 4,
                               child: AmenitiesIcons[roomObj.amenities[index]],
                             );
@@ -132,7 +132,7 @@ class _DisplayRoomState extends State<DisplayRoom> {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     IconButton(
                         onPressed: () {
                           setState(() {
@@ -145,7 +145,8 @@ class _DisplayRoomState extends State<DisplayRoom> {
               ),
             if (roomTypeExpanded == true)
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -158,7 +159,7 @@ class _DisplayRoomState extends State<DisplayRoom> {
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w500),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
                             onPressed: () {
                               setState(() {
@@ -210,7 +211,7 @@ class _DisplayRoomState extends State<DisplayRoom> {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     IconButton(
                         onPressed: () {
                           setState(() {
@@ -332,7 +333,7 @@ class DisplayRoomText extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
       child: Card(
-        color: Color.fromARGB(255, 82, 33, 161),
+        color: const Color.fromARGB(255, 82, 33, 161),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(

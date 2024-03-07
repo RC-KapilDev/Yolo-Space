@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/homescreen.dart';
 import 'providers/user_provider.dart';
 import 'package:yolo/screens/signup_screen.dart';
 import 'services/auth_services.dart';
-import 'screens/home_screen.dart';
 
 void main() {
   runApp(

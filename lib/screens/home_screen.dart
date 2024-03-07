@@ -5,7 +5,7 @@ import 'package:yolo/providers/user_provider.dart';
 import 'package:yolo/services/auth_services.dart';
 
 class HomeSrc extends StatelessWidget {
-  const HomeSrc({Key? key}) : super(key: key);
+  const HomeSrc({super.key});
 
   void signOutUser(BuildContext context) {
     AuthService().signOut(context);

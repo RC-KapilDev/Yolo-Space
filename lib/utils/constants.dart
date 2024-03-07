@@ -1,3 +1,3 @@
 class Constants {
-  static String uri = 'https://yolo-user.onrender.com';
+  static String uri = 'https://sore-jade-jay-wig.cyclic.app';
 }

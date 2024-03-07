@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:yolo/screens/home_screen.dart';
+
 import 'package:yolo/model/user.dart';
 import 'package:yolo/screens/homescreen.dart';
 
