@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yolo/model/dataModel.dart';
 import 'package:yolo/screens/displayroom.dart';
-import 'package:yolo/screens/homescreen.dart';
+import 'package:yolo/widgets/roomcard.dart';
 
 // class SearchScreen extends StatelessWidget {
 //   const SearchScreen({super.key, required this.rooms});

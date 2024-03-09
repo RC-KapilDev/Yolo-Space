@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yolo/model/dataModel.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:yolo/services/reservation_services.dart';
+import 'package:yolo/utils/utils.dart';
+import 'package:yolo/widgets/displayroomtypes.dart';
+import 'package:yolo/widgets/divideline.dart';
+import 'package:yolo/widgets/displayroomTile.dart';
+import 'package:yolo/widgets/carousel.dart';
 
 const kcolortextdisplayroom = TextStyle(
   color: Colors.white,
@@ -22,37 +27,22 @@ class _DisplayRoomState extends State<DisplayRoom> {
   Widget build(BuildContext context) {
     final roomObj = widget.room;
     return Scaffold(
-      appBar: AppBar(),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.redAccent, // Red color for bottom app bar
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Text(
-              'Token Amount: 1000',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500),
-            ),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'Reserve Room',
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        toolbarHeight: 50,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
       ),
+      bottomNavigationBar: bottomAppBar(),
       body: ListView(children: [
         Column(
           children: [
+            const SizedBox(
+              height: 15,
+            ),
             Carousel(
               imageUrls: widget.room.image,
             ),
-            DisplayRoomText(widget: widget, roomObj: roomObj),
+            DisplayRoomTile(widget: widget, roomObj: roomObj),
             const DividerLine(),
             if (isExpanded == false)
               Container(
@@ -73,7 +63,7 @@ class _DisplayRoomState extends State<DisplayRoom> {
                           itemBuilder: (context, index) {
                             return SizedBox(
                               height: 4,
-                              child: AmenitiesIcons[roomObj.amenities[index]],
+                              child: amenitiesIcons[roomObj.amenities[index]],
                             );
                           },
                         )),
@@ -85,6 +75,9 @@ class _DisplayRoomState extends State<DisplayRoom> {
                         });
                       },
                       child: CircleAvatar(
+                          backgroundColor:
+                              const Color.fromARGB(255, 96, 104, 189),
+                          foregroundColor: Colors.white,
                           child: Center(
                               child: Text('+' +
                                   (roomObj.amenities.length - 4).toString()))),
@@ -112,7 +105,7 @@ class _DisplayRoomState extends State<DisplayRoom> {
                           itemBuilder: (context, index) {
                             return SizedBox(
                               height: 5,
-                              child: AmenitiesIcons[roomObj.amenities[index]],
+                              child: amenitiesIcons[roomObj.amenities[index]],
                             );
                           },
                         )),
@@ -139,7 +132,10 @@ class _DisplayRoomState extends State<DisplayRoom> {
                             roomTypeExpanded = !roomTypeExpanded;
                           });
                         },
-                        icon: const Icon(Icons.add))
+                        icon: const Icon(
+                          Icons.add,
+                          color: const Color.fromARGB(255, 96, 104, 189),
+                        ))
                   ],
                 ),
               ),
@@ -166,7 +162,10 @@ class _DisplayRoomState extends State<DisplayRoom> {
                                 roomTypeExpanded = !roomTypeExpanded;
                               });
                             },
-                            icon: const Icon(Icons.close))
+                            icon: const Icon(
+                              Icons.close,
+                              color: const Color.fromARGB(255, 96, 104, 189),
+                            ))
                       ],
                     ),
                     const SizedBox(
@@ -218,7 +217,10 @@ class _DisplayRoomState extends State<DisplayRoom> {
                             locationExpanded = !locationExpanded;
                           });
                         },
-                        icon: const Icon(Icons.add))
+                        icon: const Icon(
+                          Icons.add,
+                          color: const Color.fromARGB(255, 96, 104, 189),
+                        ))
                   ],
                 ),
               ),
@@ -243,7 +245,10 @@ class _DisplayRoomState extends State<DisplayRoom> {
                                   locationExpanded = !locationExpanded;
                                 });
                               },
-                              icon: const Icon(Icons.close))
+                              icon: const Icon(
+                                Icons.close,
+                                color: const Color.fromARGB(255, 96, 104, 189),
+                              ))
                         ],
                       ),
                       const SizedBox(
@@ -252,7 +257,10 @@ class _DisplayRoomState extends State<DisplayRoom> {
                       Row(
                         children: [
                           Expanded(child: Text(roomObj.address)),
-                          const Icon(Icons.location_city)
+                          const Icon(
+                            Icons.location_city,
+                            color: const Color.fromARGB(255, 96, 104, 189),
+                          )
                         ],
                       )
                     ],
@@ -263,158 +271,32 @@ class _DisplayRoomState extends State<DisplayRoom> {
       ]),
     );
   }
-}
 
-class DisplayRoomTypes extends StatelessWidget {
-  const DisplayRoomTypes(
-      {super.key, required this.rent, required this.type, required this.icon});
-  final int rent;
-  final String type;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircleAvatar(child: Center(child: Icon(icon))),
-        const SizedBox(
-          width: 5,
-        ),
-        Column(
-          children: [
-            Text(type),
-            const Text('Starting from'),
-            Row(
-              children: [
-                Text(
-                  '${rent.toString()} ',
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w800),
-                ),
-                const Text('/Month')
-              ],
-            )
-          ],
-        )
-      ],
-    );
-  }
-}
-
-class DividerLine extends StatelessWidget {
-  const DividerLine({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 20),
-      child: const Divider(
-        thickness: 0.9,
-        color: Color.fromARGB(255, 24, 24, 23),
-      ),
-    );
-  }
-}
-
-class DisplayRoomText extends StatelessWidget {
-  const DisplayRoomText({
-    super.key,
-    required this.widget,
-    required this.roomObj,
-  });
-
-  final DisplayRoom widget;
-  final Room roomObj;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
-      child: Card(
-        color: const Color.fromARGB(255, 82, 33, 161),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Text(
-                      widget.room.roomType.name.toUpperCase(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          color: Colors.white),
-                    ),
-                    Text(
-                      widget.room.location[1],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                        backgroundColor: Colors.amber,
-                        radius: 18,
-                        child: Center(child: Icon(SexIcons[roomObj.sex]))),
-                    Text(
-                      roomObj.sex.name.toUpperCase(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
-                          color: Colors.white),
-                    )
-                  ],
-                ),
-              )
-            ],
+  BottomAppBar bottomAppBar() {
+    return BottomAppBar(
+      color: const Color.fromARGB(255, 96, 104, 189),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            'Token Amount: 1000',
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
           ),
-        ),
+          const Spacer(),
+          ElevatedButton(
+            onPressed: () {
+              ReservationServices reservation = ReservationServices();
+              reservation.addReservation(widget.room, context);
+              showSnackBar(context, 'Add to Favorites');
+            },
+            child: const Text(
+              'Reserve Room',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
       ),
     );
-  }
-}
-
-class Carousel extends StatelessWidget {
-  const Carousel({super.key, required this.imageUrls});
-  final List<String> imageUrls;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      CarouselSlider.builder(
-        itemCount: imageUrls.length,
-        itemBuilder: (BuildContext context, int index, int realIndex) {
-          return Container(
-            margin: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              image: DecorationImage(
-                image: NetworkImage(imageUrls[index]),
-                fit: BoxFit.cover,
-              ),
-            ),
-          );
-        },
-        options: CarouselOptions(
-          height: 280.0,
-          enlargeCenterPage: true,
-          autoPlay: true,
-          aspectRatio: 16 / 9,
-          autoPlayCurve: Curves.fastOutSlowIn,
-          enableInfiniteScroll: true,
-          autoPlayAnimationDuration: const Duration(milliseconds: 800),
-          viewportFraction: 0.8,
-        ),
-      ),
-    ]);
   }
 }

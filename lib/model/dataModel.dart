@@ -20,7 +20,7 @@ enum Amenities {
 
 enum Sex { male, female, unisex }
 
-final AmenitiesIcons = {
+final amenitiesIcons = {
   Amenities.parking: Image.asset('lib/icons/parking.png'),
   Amenities.ac: Image.asset('lib/icons/air-conditioning.png'),
   Amenities.wifi: Image.asset('lib/icons/wifi.png'),
@@ -31,9 +31,11 @@ final AmenitiesIcons = {
   Amenities.housekeeping: Image.asset('lib/icons/maid.png'),
   Amenities.pillow: Image.asset('lib/icons/pillow.png'),
   Amenities.drinkingwater: Image.asset('lib/icons/water-bottle.png'),
+  Amenities.bathroom: Image.asset('lib/icons/bathtub.png'),
+  Amenities.wash: Image.asset('lib/icons/laundry-machine.png'),
 };
 
-const SexIcons = {
+const sexIcons = {
   Sex.male: Icons.male,
   Sex.female: Icons.female,
   Sex.unisex: Icons.roundabout_left,
@@ -77,42 +79,42 @@ List<Room> parseRoomsFromJson(String jsonString) {
   return jsonList.map((json) => Room.fromJson(json)).toList();
 }
 
-List<Room> Rooms = [
-  Room(
-      roomType: RoomType.premium,
-      location: ['Chennai', 'Adambakkam'],
-      sex: Sex.male,
-      amenities: [
-        Amenities.ac,
-        Amenities.almirah,
-        Amenities.cctv,
-        Amenities.parking,
-        Amenities.drinkingwater
-      ],
-      rent: 16200,
-      address: '  No 4/5 1st Floor, Hello Colony , Adambakkam ,Chennai-600056 ',
-      image: [
-        'https://images.livspace-cdn.com/plain/https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/2/2022/06/10183457/small-bedroom-ideas.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSajn8L1P4PAvH_vr1aW2-2wuXlmal6qPWqajQIRxQAKg&s'
-      ]),
-  Room(
-      roomType: RoomType.premium,
-      location: ['Chennai', 'Adambakkam'],
-      sex: Sex.male,
-      amenities: [
-        Amenities.ac,
-        Amenities.almirah,
-        Amenities.cctv,
-        Amenities.parking,
-        Amenities.drinkingwater
-      ],
-      rent: 16200,
-      address: '  No 4/5 1st Floor, Hello Colony , Adambakkam ,Chennai-600056 ',
-      image: [
-        'https://images.livspace-cdn.com/plain/https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/2/2022/06/10183457/small-bedroom-ideas.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSajn8L1P4PAvH_vr1aW2-2wuXlmal6qPWqajQIRxQAKg&s'
-      ]),
-];
+// List<Room> Rooms = [
+//   Room(
+//       roomType: RoomType.premium,
+//       location: ['Chennai', 'Adambakkam'],
+//       sex: Sex.male,
+//       amenities: [
+//         Amenities.ac,
+//         Amenities.almirah,
+//         Amenities.cctv,
+//         Amenities.parking,
+//         Amenities.drinkingwater
+//       ],
+//       rent: 16200,
+//       address: '  No 4/5 1st Floor, Hello Colony , Adambakkam ,Chennai-600056 ',
+//       image: [
+//         'https://images.livspace-cdn.com/plain/https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/2/2022/06/10183457/small-bedroom-ideas.jpg',
+//         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSajn8L1P4PAvH_vr1aW2-2wuXlmal6qPWqajQIRxQAKg&s'
+//       ]),
+//   Room(
+//       roomType: RoomType.premium,
+//       location: ['Chennai', 'Adambakkam'],
+//       sex: Sex.male,
+//       amenities: [
+//         Amenities.ac,
+//         Amenities.almirah,
+//         Amenities.cctv,
+//         Amenities.parking,
+//         Amenities.drinkingwater
+//       ],
+//       rent: 16200,
+//       address: '  No 4/5 1st Floor, Hello Colony , Adambakkam ,Chennai-600056 ',
+//       image: [
+//         'https://images.livspace-cdn.com/plain/https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/2/2022/06/10183457/small-bedroom-ideas.jpg',
+//         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSajn8L1P4PAvH_vr1aW2-2wuXlmal6qPWqajQIRxQAKg&s'
+//       ]),
+// ];
 
 
 // factory Room.fromJson(Map<String, dynamic> json) {
