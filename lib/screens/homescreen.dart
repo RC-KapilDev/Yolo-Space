@@ -60,21 +60,6 @@ class __HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(builder: (context) => DisplayRoom(room: room)));
   }
 
-  List<String> test = [
-    'Dates',
-    'Gustes',
-    'Type Of Place',
-    'Price',
-    'Quality',
-    'bello',
-    'bello',
-    'bello',
-    'bello',
-    'bello',
-    'bello',
-    'bello',
-  ];
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -227,6 +212,23 @@ class __HomeScreenState extends State<HomeScreen> {
   }
 }
 
+
+
+
+//  List<String> test = [
+//     'Dates',
+//     'Gustes',
+//     'Type Of Place',
+//     'Price',
+//     'Quality',
+//     'bello',
+//     'bello',
+//     'bello',
+//     'bello',
+//     'bello',
+//     'bello',
+//     'bello',
+//   ];
 
 
 //  Container(
