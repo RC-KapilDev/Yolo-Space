@@ -28,6 +28,9 @@ class __HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     fetchData();
+    timer = Timer.periodic(duration, (Timer timer) {
+      fetchData();
+    });
   }
 
   Future<void> fetchData() async {
@@ -60,96 +63,97 @@ class __HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(builder: (context) => DisplayRoom(room: room)));
   }
 
+  Future<void> refreshData() async {
+    await fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     timer ??= Timer.periodic(duration, (timer) {
       fetchData();
     });
-    return Scaffold(
-      bottomNavigationBar: Container(
-        color: const Color.fromARGB(255, 96, 104, 189),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: GNav(
-            gap: 8,
-            tabBackgroundColor: Colors.black,
-            backgroundColor: const Color.fromARGB(255, 96, 104, 189),
-            color: Colors.white,
-            activeColor: Colors.white,
-            onTabChange: (index) {
-              if (index == 0 && Navigator.canPop(context)) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ),
-                );
-              }
-              if (index == 1) {
-                if (rooms.isNotEmpty) {
-                  showSearch(
-                      context: context,
-                      delegate: MySearchDelegate(roomList: rooms));
+    return SafeArea(
+      child: Scaffold(
+        bottomNavigationBar: Container(
+          color: const Color.fromARGB(255, 96, 104, 189),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            child: GNav(
+              gap: 8,
+              tabBackgroundColor: Colors.black,
+              backgroundColor: const Color.fromARGB(255, 96, 104, 189),
+              color: Colors.white,
+              activeColor: Colors.white,
+              onTabChange: (index) {
+                if (index == 0 && Navigator.canPop(context)) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ),
+                  );
                 }
-              }
-              if (index == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Favorite(),
-                  ),
-                );
-              }
+                if (index == 1) {
+                  if (rooms.isNotEmpty) {
+                    showSearch(
+                        context: context,
+                        delegate: MySearchDelegate(roomList: rooms));
+                  }
+                }
+                if (index == 2) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Favorite(),
+                    ),
+                  );
+                }
 
-              if (index == 3) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Account(),
-                  ),
-                );
-              }
-            },
-            padding: const EdgeInsets.all(15),
-            tabs: const [
-              GButton(
-                icon: Icons.home_outlined,
-                text: 'Home',
-              ),
-              GButton(
-                icon: Icons.search_outlined,
-                text: 'Search',
-              ),
-              GButton(
-                icon: Icons.favorite_outline,
-                text: 'Favorite',
-              ),
-              GButton(
-                icon: Icons.person,
-                text: 'Account',
-              ),
-            ],
+                if (index == 3) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Account(),
+                    ),
+                  );
+                }
+              },
+              padding: const EdgeInsets.all(15),
+              tabs: const [
+                GButton(
+                  icon: Icons.home_outlined,
+                  text: 'Home',
+                ),
+                GButton(
+                  icon: Icons.search_outlined,
+                  text: 'Search',
+                ),
+                GButton(
+                  icon: Icons.favorite_outline,
+                  text: 'Favorite',
+                ),
+                GButton(
+                  icon: Icons.person,
+                  text: 'Account',
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      appBar: AppBar(
-        title: Container(
-          margin: const EdgeInsets.only(top: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        appBar: AppBar(
+          toolbarHeight: 120,
+          title: Column(
             children: [
-              const Text('Yolo'),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.location_on))
-            ],
-          ),
-        ),
-      ),
-      body: ListView(
-        children: [
-          Container(
-              margin: const EdgeInsets.all(18),
-              child: GestureDetector(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Yolo'),
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.location_on))
+                ],
+              ),
+              GestureDetector(
                 onTap: () {
                   if (rooms.isNotEmpty) {
                     showSearch(
@@ -162,7 +166,7 @@ class __HomeScreenState extends State<HomeScreen> {
                   }
                 },
                 child: Card(
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: const Color.fromARGB(255, 0, 0, 0),
                   elevation: 5,
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
@@ -191,22 +195,31 @@ class __HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-              )),
-          Visibility(
-            visible: visible,
-            replacement: Container(
-              margin: const EdgeInsets.symmetric(vertical: 100),
-              child: const Center(
-                child: CircularProgressIndicator(),
               ),
-            ),
-            child: Column(
-              children: rooms
-                  .map((e) => RoomCard(room: e, onTap: displayScreen))
-                  .toList(),
-            ),
-          )
-        ],
+            ],
+          ),
+        ),
+        body: RefreshIndicator(
+          onRefresh: refreshData,
+          child: ListView(
+            children: [
+              Visibility(
+                visible: visible,
+                replacement: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 100),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                child: Column(
+                  children: rooms
+                      .map((e) => RoomCard(room: e, onTap: displayScreen))
+                      .toList(),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

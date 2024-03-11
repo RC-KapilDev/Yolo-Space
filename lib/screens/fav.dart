@@ -193,11 +193,11 @@ class RoomCardResrvation extends StatelessWidget {
                       Text(
                         room.location[0],
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                       Text(
                         room.location[1],
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ],
                   ),
@@ -326,7 +326,7 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                         flex: 5,
                         child: GridView.builder(
                           shrinkWrap: true,
-                          itemCount: 4,
+                          itemCount: widget.room.amenities.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 4,
@@ -340,21 +340,22 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                             );
                           },
                         )),
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isExpanded = !isExpanded;
-                        });
-                      },
-                      child: CircleAvatar(
-                          backgroundColor:
-                              const Color.fromARGB(255, 96, 104, 189),
-                          foregroundColor: Colors.white,
-                          child: Center(
-                              child: Text('+' +
-                                  (roomObj.amenities.length - 4).toString()))),
-                    ))
+                    if (widget.room.amenities.length > 4)
+                      Expanded(
+                          child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isExpanded = !isExpanded;
+                          });
+                        },
+                        child: CircleAvatar(
+                            backgroundColor:
+                                const Color.fromARGB(255, 96, 104, 189),
+                            foregroundColor: Colors.white,
+                            child: Center(
+                                child:
+                                    Text('+${roomObj.amenities.length - 4}'))),
+                      ))
                   ],
                 ),
               ),
@@ -408,7 +409,7 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                         },
                         icon: const Icon(
                           Icons.add,
-                          color: const Color.fromARGB(255, 96, 104, 189),
+                          color: Color.fromARGB(255, 96, 104, 189),
                         ))
                   ],
                 ),
@@ -438,7 +439,7 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                             },
                             icon: const Icon(
                               Icons.close,
-                              color: const Color.fromARGB(255, 96, 104, 189),
+                              color: Color.fromARGB(255, 96, 104, 189),
                             ))
                       ],
                     ),
@@ -493,7 +494,7 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                         },
                         icon: const Icon(
                           Icons.add,
-                          color: const Color.fromARGB(255, 96, 104, 189),
+                          color: Color.fromARGB(255, 96, 104, 189),
                         ))
                   ],
                 ),
@@ -521,7 +522,7 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                               },
                               icon: const Icon(
                                 Icons.close,
-                                color: const Color.fromARGB(255, 96, 104, 189),
+                                color: Color.fromARGB(255, 96, 104, 189),
                               ))
                         ],
                       ),
@@ -533,7 +534,7 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                           Expanded(child: Text(roomObj.address)),
                           const Icon(
                             Icons.location_city,
-                            color: const Color.fromARGB(255, 96, 104, 189),
+                            color: Color.fromARGB(255, 96, 104, 189),
                           )
                         ],
                       )
