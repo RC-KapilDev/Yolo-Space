@@ -36,7 +36,7 @@ class __HomeScreenState extends State<HomeScreen> {
   Future<void> fetchData() async {
     try {
       final response = await http
-          .get(Uri.parse('https://sore-jade-jay-wig.cyclic.app/yolo/rooms'));
+          .get(Uri.parse('https://odd-red-perch-ring.cyclic.app/yolo/rooms'));
       if (response.statusCode == 200) {
         setState(() {
           rooms = parseRoomsFromJson(response.body);

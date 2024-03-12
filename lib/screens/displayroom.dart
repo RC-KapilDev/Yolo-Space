@@ -54,7 +54,9 @@ class _DisplayRoomState extends State<DisplayRoom> {
                         flex: 5,
                         child: GridView.builder(
                           shrinkWrap: true,
-                          itemCount: roomObj.amenities.length,
+                          itemCount: roomObj.amenities.length < 4
+                              ? roomObj.amenities.length
+                              : 4,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 4,
@@ -67,7 +69,7 @@ class _DisplayRoomState extends State<DisplayRoom> {
                             );
                           },
                         )),
-                    if ((roomObj.amenities.length - 4) > 4)
+                    if (!(roomObj.amenities.length <= 4))
                       Expanded(
                           child: GestureDetector(
                         onTap: () {

@@ -32,7 +32,7 @@ class _FavoriteState extends State<Favorite> {
       final user = Provider.of<UserProvider>(context, listen: false).user.email;
 
       final response = await http
-          .get(Uri.parse('https://sore-jade-jay-wig.cyclic.app/res/$user'));
+          .get(Uri.parse('https://odd-red-perch-ring.cyclic.app/res/$user'));
       if (response.statusCode == 200) {
         setState(() {
           reservedRoom = parseReservationFromJson(response.body);
@@ -70,7 +70,7 @@ class _FavoriteState extends State<Favorite> {
   void removeFav(String id) async {
     try {
       final response = await http
-          .delete(Uri.parse('https://sore-jade-jay-wig.cyclic.app/res/$id'));
+          .delete(Uri.parse('https://odd-red-perch-ring.cyclic.app/res/$id'));
       if (response.statusCode == 200) {
         setState(() {
           reservedRoom.removeWhere((room) => room.id == id); // Remove from list
@@ -326,7 +326,9 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                         flex: 5,
                         child: GridView.builder(
                           shrinkWrap: true,
-                          itemCount: widget.room.amenities.length,
+                          itemCount: roomObj.amenities.length < 4
+                              ? roomObj.amenities.length
+                              : 4,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 4,
@@ -340,7 +342,7 @@ class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
                             );
                           },
                         )),
-                    if (widget.room.amenities.length > 4)
+                    if (!(roomObj.amenities.length <= 4))
                       Expanded(
                           child: GestureDetector(
                         onTap: () {
