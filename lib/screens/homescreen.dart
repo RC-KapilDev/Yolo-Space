@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:yolo/providers/user_provider.dart';
 import 'package:yolo/screens/account.dart';
 import 'package:yolo/screens/fav.dart';
+import 'package:yolo/utils/constants.dart';
 import 'package:yolo/utils/utils.dart';
 import 'package:yolo/widgets/roomcard.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,7 @@ class __HomeScreenState extends State<HomeScreen> {
 
   Future<void> fetchData() async {
     try {
-      final response = await http
-          .get(Uri.parse('https://odd-red-perch-ring.cyclic.app/yolo/rooms'));
+      final response = await http.get(Uri.parse('${Constants.uri}/yolo/rooms'));
       if (response.statusCode == 200) {
         setState(() {
           rooms = parseRoomsFromJson(response.body);
@@ -75,72 +75,7 @@ class __HomeScreenState extends State<HomeScreen> {
     });
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: Container(
-          color: const Color.fromARGB(255, 96, 104, 189),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            child: GNav(
-              gap: 8,
-              tabBackgroundColor: Colors.black,
-              backgroundColor: const Color.fromARGB(255, 96, 104, 189),
-              color: Colors.white,
-              activeColor: Colors.white,
-              onTabChange: (index) {
-                if (index == 0 && Navigator.canPop(context)) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
-                    ),
-                  );
-                }
-                if (index == 1) {
-                  if (rooms.isNotEmpty) {
-                    showSearch(
-                        context: context,
-                        delegate: MySearchDelegate(roomList: rooms));
-                  }
-                }
-                if (index == 2) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Favorite(),
-                    ),
-                  );
-                }
-
-                if (index == 3) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Account(),
-                    ),
-                  );
-                }
-              },
-              padding: const EdgeInsets.all(15),
-              tabs: const [
-                GButton(
-                  icon: Icons.home_outlined,
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: Icons.search_outlined,
-                  text: 'Search',
-                ),
-                GButton(
-                  icon: Icons.favorite_outline,
-                  text: 'Favorite',
-                ),
-                GButton(
-                  icon: Icons.person,
-                  text: 'Account',
-                ),
-              ],
-            ),
-          ),
-        ),
+        bottomNavigationBar: bottomNav(context),
         appBar: AppBar(
           toolbarHeight: 120,
           title: Column(
@@ -199,27 +134,100 @@ class __HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        body: RefreshIndicator(
-          onRefresh: refreshData,
-          child: ListView(
-            children: [
-              Visibility(
-                visible: visible,
-                replacement: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 100),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+        body: refreshButton(),
+      ),
+    );
+  }
+
+  Container bottomNav(BuildContext context) {
+    return Container(
+      color: const Color.fromARGB(255, 96, 104, 189),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        child: GNav(
+          gap: 8,
+          tabBackgroundColor: Colors.black,
+          backgroundColor: const Color.fromARGB(255, 96, 104, 189),
+          color: Colors.white,
+          activeColor: Colors.white,
+          onTabChange: (index) {
+            if (index == 0 && Navigator.canPop(context)) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomeScreen(),
                 ),
-                child: Column(
-                  children: rooms
-                      .map((e) => RoomCard(room: e, onTap: displayScreen))
-                      .toList(),
+              );
+            }
+            if (index == 1) {
+              if (rooms.isNotEmpty) {
+                showSearch(
+                    context: context,
+                    delegate: MySearchDelegate(roomList: rooms));
+              }
+            }
+            if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Favorite(),
                 ),
-              )
-            ],
-          ),
+              );
+            }
+
+            if (index == 3) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Account(),
+                ),
+              );
+            }
+          },
+          padding: const EdgeInsets.all(15),
+          tabs: const [
+            GButton(
+              icon: Icons.home_outlined,
+              text: 'Home',
+            ),
+            GButton(
+              icon: Icons.search_outlined,
+              text: 'Search',
+            ),
+            GButton(
+              icon: Icons.favorite_outline,
+              text: 'Favorite',
+            ),
+            GButton(
+              icon: Icons.person,
+              text: 'Account',
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  RefreshIndicator refreshButton() {
+    return RefreshIndicator(
+      onRefresh: refreshData,
+      child: ListView(
+        children: [
+          Visibility(
+            visible: visible,
+            replacement: Container(
+              margin: const EdgeInsets.symmetric(vertical: 100),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+            child: Column(
+              children: rooms
+                  .map((e) => RoomCard(room: e, onTap: displayScreen))
+                  .toList(),
+            ),
+          )
+        ],
       ),
     );
   }

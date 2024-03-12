@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:yolo/model/dataModel.dart';
-import 'package:yolo/widgets/bottomAppBar.dart';
+import 'package:yolo/model/reservation.dart';
+import 'package:yolo/widgets/carousel.dart';
+import 'package:yolo/widgets/displayroomtitlereservation.dart';
 import 'package:yolo/widgets/displayroomtypes.dart';
 import 'package:yolo/widgets/divideline.dart';
-import 'package:yolo/widgets/displayroomTile.dart';
-import 'package:yolo/widgets/carousel.dart';
 
 const kcolortextdisplayroom = TextStyle(
   color: Colors.white,
 );
 
-class DisplayRoom extends StatefulWidget {
-  const DisplayRoom({super.key, required this.room});
-  final Room room;
+class DisplayRoomReservation extends StatefulWidget {
+  const DisplayRoomReservation({super.key, required this.room});
+  final RoomReservation room;
 
   @override
-  State<DisplayRoom> createState() => _DisplayRoomState();
+  State<DisplayRoomReservation> createState() => _DisplayRoomReservationState();
 }
 
-class _DisplayRoomState extends State<DisplayRoom> {
+class _DisplayRoomReservationState extends State<DisplayRoomReservation> {
   bool isExpanded = false;
   bool roomTypeExpanded = false;
   bool locationExpanded = false;
@@ -27,21 +26,16 @@ class _DisplayRoomState extends State<DisplayRoom> {
     final roomObj = widget.room;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 50,
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      bottomNavigationBar: BottomAppBarNav(widget: widget, context: context),
       body: ListView(children: [
         Column(
           children: [
-            const SizedBox(
-              height: 15,
-            ),
             Carousel(
               imageUrls: widget.room.image,
             ),
-            DisplayRoomTile(widget: widget, roomObj: roomObj),
+            DisplayRoomTileReservation(widget: widget, roomObj: roomObj),
             const DividerLine(),
             if (isExpanded == false)
               Container(
@@ -64,7 +58,8 @@ class _DisplayRoomState extends State<DisplayRoom> {
                           itemBuilder: (context, index) {
                             return SizedBox(
                               height: 4,
-                              child: amenitiesIcons[roomObj.amenities[index]],
+                              child: amenitiesIconsReservation[
+                                  roomObj.amenities[index]],
                             );
                           },
                         )),
@@ -107,7 +102,8 @@ class _DisplayRoomState extends State<DisplayRoom> {
                           itemBuilder: (context, index) {
                             return SizedBox(
                               height: 5,
-                              child: amenitiesIcons[roomObj.amenities[index]],
+                              child: amenitiesIconsReservation[
+                                  roomObj.amenities[index]],
                             );
                           },
                         )),
