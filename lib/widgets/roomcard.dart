@@ -7,6 +7,13 @@ class RoomCard extends StatelessWidget {
   const RoomCard({super.key, required this.room, required this.onTap});
   final Room room;
   final void Function(Room room, BuildContext context) onTap;
+  String _formatRent(int rent) {
+    if (rent >= 10000) {
+      return '${(rent ~/ 1000).toStringAsFixed(1)}k';
+    } else {
+      return rent.toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +61,16 @@ class RoomCard extends StatelessWidget {
                             fontSize: 18, fontWeight: FontWeight.w500),
                         textAlign: TextAlign.center,
                       ),
-                      Text(
-                        room.location[0],
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(room.location[1]),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: room.location.length > 2 ? 2 : 1,
+                        itemBuilder: (context, index) {
+                          return Text(
+                            room.location[0],
+                            style: const TextStyle(color: Colors.black),
+                          );
+                        },
+                      )
                     ],
                   ),
                   Container(
@@ -86,7 +98,7 @@ class RoomCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            room.rent.toString(),
+                            _formatRent(room.rent),
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
