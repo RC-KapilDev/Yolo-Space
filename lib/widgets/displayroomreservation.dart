@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yolo/model/reservation.dart';
+import 'package:yolo/widgets/bottomAppBar.dart';
 import 'package:yolo/widgets/carousel.dart';
 import 'package:yolo/widgets/displayroomtitlereservation.dart';
 import 'package:yolo/widgets/displayroomtypes.dart';

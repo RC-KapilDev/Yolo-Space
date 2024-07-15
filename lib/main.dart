@@ -12,6 +12,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown, // Lock to portrait mode
   ]);
+
   runApp(
     MultiProvider(
       providers: [
@@ -31,11 +32,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
-
   @override
   void initState() {
-    super.initState();
     authService.getUserData(context);
+    super.initState();
   }
 
   @override
