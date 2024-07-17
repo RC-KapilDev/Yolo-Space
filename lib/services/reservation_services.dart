@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:yolo/model/dataModel.dart';
 import 'package:yolo/model/reservation.dart';
 import 'package:yolo/providers/user_provider.dart';
+import 'package:yolo/utils/constants.dart';
 
 class ReservationServices {
   List<RoomReservation> roomRes = [];
@@ -27,7 +28,7 @@ class ReservationServices {
       };
 
       http.Response response = await http.post(
-        Uri.parse('https://sore-jade-jay-wig.cyclic.app/res/rooms'),
+        Uri.parse('${Constants.uri}/res/rooms'),
         body: json.encode(resevation),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -45,8 +46,8 @@ class ReservationServices {
   }
 
   void getReservation() async {
-    final response = await http
-        .get(Uri.parse('http://192.168.56.1:3000/res/rckapildev8@gmail.com'));
+    final response =
+        await http.get(Uri.parse('${Constants.uri}/res/rckapildev8@gmail.com'));
     roomRes = parseReservationFromJson(response.body);
   }
 }
